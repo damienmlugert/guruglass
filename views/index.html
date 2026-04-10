@@ -3,18 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guru Glass — Custom Hand-Blown Glass Art</title>
-  <meta name="description" content="Guru Glass creates bespoke hand-blown glass art pieces — sculptures, pendants, vessels, and custom commissions. Every piece is one of a kind.">
+  <title>Guru Glass â Custom Hand-Blown Glass Art</title>
+  <meta name="description" content="Guru Glass creates bespoke hand-blown glass art pieces â sculptures, pendants, vessels, and custom commissions. Every piece is one of a kind.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ð</text></svg>">
+
+  <!-- AOS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <!-- GLightbox CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+
   <link rel="stylesheet" href="/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔷</text></svg>">
 </head>
 <body>
 
-<!-- ─── Navigation ──────────────────────────────────────────────────────── -->
-<nav class="nav">
+<!-- âââ Custom Cursor ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-outline" id="cursorOutline"></div>
+
+<!-- âââ Navigation ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<nav class="nav" id="mainNav">
   <div class="container nav-inner">
     <a href="/" class="nav-logo">
-      <div class="logo-icon">🔷</div>
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#f0ead6" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M2 17l10 5 10-5" stroke="#C9A84C" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M2 12l10 5 10-5" stroke="#00f5d4" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <span>Guru <span class="accent">Glass</span></span>
     </a>
     <ul class="nav-links">
@@ -28,45 +46,68 @@
   </div>
 </nav>
 
-<!-- ─── Hero ────────────────────────────────────────────────────────────── -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="container">
-    <div class="hero-content">
-      <div class="hero-eyebrow">Hand-blown · One of a Kind · Custom Commissions</div>
+<!-- âââ Hero ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<section class="hero" id="hero">
+  <!-- Vanta.js animated background -->
+  <div id="vanta-bg"></div>
+
+  <!-- Three.js glass prism canvas -->
+  <canvas id="prism-canvas"></canvas>
+
+  <div class="container hero-layout">
+    <!-- Left: Text -->
+    <div class="hero-content" id="heroContent">
+      <div class="hero-eyebrow">Hand-blown Â· One of a Kind Â· Custom Commissions</div>
       <h1>Glass Art That <em>Holds the Light</em></h1>
       <p class="hero-subtitle">
-        Each piece born from fire and breath — unique sculptures, wearable art, and vessels crafted to carry meaning, beauty, and light into your world.
+        <span id="typed"></span>
       </p>
       <div class="hero-buttons">
-        <a href="/products" class="btn btn-gold">Explore the Collection</a>
+        <a href="/products" class="btn btn-gold">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Explore the Collection
+        </a>
         <a href="/contact" class="btn btn-outline">Commission a Custom Piece</a>
       </div>
     </div>
+    <!-- Right side is occupied by the Three.js canvas -->
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-indicator-text">Scroll</div>
+    <div class="scroll-line"></div>
   </div>
 </section>
 
-<!-- ─── Features ────────────────────────────────────────────────────────── -->
+<!-- âââ Wave Top ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div class="wave-divider">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,0 C180,80 360,0 540,40 C720,80 900,0 1080,40 C1260,80 1440,20 1440,40 L1440,80 L0,80 Z"
+          fill="#0a0a1a" opacity="0.9"/>
+  </svg>
+</div>
+
+<!-- âââ Features ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
 <div class="features-section">
   <div class="container">
     <div class="features-grid">
-      <div class="feature-item">
-        <div class="feature-icon">🔥</div>
+      <div class="feature-item" data-aos="fade-up" data-aos-delay="0">
+        <div class="feature-icon">ð¥</div>
         <h3 class="feature-title">Flame-Formed</h3>
-        <p class="feature-text">Every piece shaped by hand in the flame — no molds, no machines. Pure molten glass and decades of skill.</p>
+        <p class="feature-text">Every piece shaped by hand in the flame â no molds, no machines. Pure molten glass and decades of skill.</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">✦</div>
+      <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
+        <div class="feature-icon">â¦</div>
         <h3 class="feature-title">Truly Unique</h3>
         <p class="feature-text">No two pieces are ever identical. What you see is a singular expression, made once, never repeated.</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">🎨</div>
+      <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
+        <div class="feature-icon">ð¨</div>
         <h3 class="feature-title">Custom Commissions</h3>
-        <p class="feature-text">Bring your vision. We work directly with you to create something personal — sized, colored, and shaped to order.</p>
+        <p class="feature-text">Bring your vision. We work directly with you to create something personal â sized, colored, and shaped to order.</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">📦</div>
+      <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
+        <div class="feature-icon">ð¦</div>
         <h3 class="feature-title">Delivered Safely</h3>
         <p class="feature-text">Each piece is museum-wrapped and shipped with care, arriving ready to display or gift.</p>
       </div>
@@ -74,47 +115,87 @@
   </div>
 </div>
 
-<!-- ─── Featured Works ───────────────────────────────────────────────────── -->
-<section>
+<!-- âââ Wave Middle ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div class="wave-divider" style="transform:scaleY(-1) scaleX(-1)">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,0 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"
+          fill="#000000" opacity="1"/>
+  </svg>
+</div>
+
+<!-- âââ Featured Works âââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<section style="background:var(--black);padding:100px 0;">
   <div class="container">
     <div class="section-header">
-      <span class="section-eyebrow">The Collection</span>
-      <h2 class="section-title">Featured Works</h2>
-      <p class="section-subtitle">A glimpse into the current collection — sculptures, vessels, and wearable art available now or as inspiration for your commission.</p>
+      <span class="section-eyebrow" data-aos="fade-down">The Collection</span>
+      <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Featured Works</h2>
+      <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">
+        A glimpse into the current collection â sculptures, vessels, and wearable art available now or as inspiration for your commission.
+      </p>
     </div>
-    <div class="divider"><div class="divider-diamond"></div></div>
-    <div id="featuredProducts">
-      <div class="loading-grid">
-        <div class="skeleton-card"><div class="skeleton-media"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
-        <div class="skeleton-card"><div class="skeleton-media"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
-        <div class="skeleton-card"><div class="skeleton-media"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+
+    <div class="section-divider" data-aos="fade-up" data-aos-delay="250">
+      <div class="divider-gem"></div>
+    </div>
+
+    <!-- Swiper Carousel -->
+    <div class="swiper featured-swiper" data-aos="fade-up" data-aos-delay="300">
+      <div class="swiper-wrapper" id="featuredSlides">
+        <!-- Populated by JS -->
+        <div class="swiper-slide">
+          <div class="skeleton-card"><div class="skeleton-media"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+        </div>
+        <div class="swiper-slide">
+          <div class="skeleton-card"><div class="skeleton-media"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+        </div>
+        <div class="swiper-slide">
+          <div class="skeleton-card"><div class="skeleton-media"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+        </div>
       </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
     </div>
-    <div style="text-align:center;margin-top:48px">
-      <a href="/products" class="btn btn-outline">View Full Collection</a>
+
+    <div style="text-align:center;margin-top:56px" data-aos="fade-up" data-aos-delay="150">
+      <a href="/products" class="btn btn-outline">View Full Collection â</a>
     </div>
   </div>
 </section>
 
-<!-- ─── CTA Banner ───────────────────────────────────────────────────────── -->
+<!-- âââ Wave Bottom ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div class="wave-divider">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,40 C360,0 720,80 1080,40 C1260,20 1380,60 1440,40 L1440,80 L0,80 Z"
+          fill="#0a0a1a"/>
+  </svg>
+</div>
+
+<!-- âââ CTA Banner âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
 <div class="cta-banner">
   <div class="container">
-    <span class="section-eyebrow">Commission</span>
-    <h2>Have a Vision? <span class="gold">Let's Make It.</span></h2>
-    <p>Describe what you're imagining — size, color, form, purpose. Every commission starts with a conversation.</p>
-    <a href="/contact" class="btn btn-gold">Start a Conversation</a>
+    <span class="section-eyebrow" data-aos="fade-down">Commission</span>
+    <h2 data-aos="fade-up" data-aos-delay="100">Have a Vision? <span class="gold">Let's Make It.</span></h2>
+    <p data-aos="fade-up" data-aos-delay="200">Describe what you're imagining â size, color, form, purpose. Every commission starts with a conversation.</p>
+    <a href="/contact" class="btn btn-gold" data-aos="fade-up" data-aos-delay="300">Start a Conversation</a>
   </div>
 </div>
 
-<!-- ─── Footer ───────────────────────────────────────────────────────────── -->
+<!-- âââ Footer âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="nav-logo" style="display:inline-flex">
-          <div class="logo-icon">🔷</div>
+        <a href="/" class="nav-logo" style="display:inline-flex">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#f0ead6" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M2 17l10 5 10-5" stroke="#C9A84C" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M2 12l10 5 10-5" stroke="#00f5d4" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
           <span>Guru <span class="accent">Glass</span></span>
-        </div>
+        </a>
         <p>Handcrafted glass art for collectors, gifters, and those who believe beauty belongs in the everyday.</p>
       </div>
       <div>
@@ -136,33 +217,415 @@
     </div>
     <div class="footer-bottom">
       <span>&copy; 2024 Guru Glass. All rights reserved.</span>
-      <span style="color:var(--gold)">✦ Every piece, one of a kind ✦</span>
+      <span class="accent">â¦ Every piece, one of a kind â¦</span>
     </div>
   </div>
 </footer>
 
+<!-- ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+     SCRIPTS â order matters
+     ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+
+<!-- Three.js (load first â Vanta needs it) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- Vanta.js NET -->
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<!-- Typed.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+
+<!-- Swiper.js -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- AOS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<!-- Lenis -->
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+<!-- GLightbox -->
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+
+<!-- Vanilla Tilt -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+
+<!-- Our shared script -->
 <script src="/script.js"></script>
+
 <script>
-  // Load up to 3 featured products on homepage
-  (async () => {
-    const container = document.getElementById('featuredProducts');
-    try {
-      const res = await fetch('/api/products');
-      const products = await res.json();
-      const featured = products.slice(0, 3);
-      if (!featured.length) {
-        container.innerHTML = `
-          <div style="text-align:center;padding:60px 24px;color:var(--text-muted)">
-            <div style="font-size:3rem;margin-bottom:16px">🔮</div>
-            <p>New pieces arriving soon.</p>
-          </div>`;
-        return;
-      }
-      container.innerHTML = `<div class="products-grid">${featured.map(renderProductCard).join('')}</div>`;
-    } catch(e) {
-      container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:40px">Unable to load works.</p>';
+// âââ Init Lenis after libs loaded âââââââââââââââââââââââââââââââââââââââââ
+if (typeof Lenis !== 'undefined' && window.GuruGlass) {
+  window.GuruGlass.initLenis();
+}
+if (typeof gsap !== 'undefined' && window.GuruGlass) {
+  window.GuruGlass.initGSAPAnimations();
+}
+
+// âââ Vanta.js NET Background âââââââââââââââââââââââââââââââââââââââââââââââ
+let vantaEffect = null;
+if (typeof VANTA !== 'undefined') {
+  vantaEffect = VANTA.NET({
+    el: '#vanta-bg',
+    THREE: THREE,
+    mouseControls: true,
+    touchControls: false,
+    gyroControls: false,
+    minHeight: 200.00,
+    minWidth: 200.00,
+    scale: 1.00,
+    scaleMobile: 1.00,
+    color: 0xC9A84C,
+    backgroundColor: 0x000000,
+    points: 14.00,
+    maxDistance: 20.00,
+    spacing: 18.00,
+    showDots: true,
+  });
+}
+
+// âââ Three.js Glass Prism ââââââââââââââââââââââââââââââââââââââââââââââââââ
+(function initPrism() {
+  const canvas = document.getElementById('prism-canvas');
+  if (!canvas || typeof THREE === 'undefined' || window.innerWidth < 1024) {
+    if (canvas) canvas.style.display = 'none';
+    return;
+  }
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    antialias: true,
+    alpha: true,
+  });
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
+
+  const scene = new THREE.Scene();
+  const w = canvas.clientWidth || canvas.offsetWidth;
+  const h = canvas.clientHeight || canvas.offsetHeight;
+  renderer.setSize(w, h);
+
+  const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
+  camera.position.set(0, 0, 5);
+  camera.lookAt(0, 0, 0);
+
+  // Custom glass shader material
+  const vertexShader = `
+    varying vec3 vNormal;
+    varying vec3 vViewDir;
+    varying vec3 vWorldPos;
+    varying vec2 vUv;
+
+    void main() {
+      vUv = uv;
+      vec4 worldPos = modelMatrix * vec4(position, 1.0);
+      vWorldPos = worldPos.xyz;
+      vNormal = normalize(normalMatrix * normal);
+      vViewDir = normalize(cameraPosition - worldPos.xyz);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
-  })();
+  `;
+
+  const fragmentShader = `
+    varying vec3 vNormal;
+    varying vec3 vViewDir;
+    varying vec3 vWorldPos;
+    varying vec2 vUv;
+    uniform float uTime;
+
+    vec3 goldColor    = vec3(0.788, 0.659, 0.298);
+    vec3 tealColor    = vec3(0.0,   0.961, 0.831);
+    vec3 purpleColor  = vec3(0.42,  0.13,  0.66);
+    vec3 whiteColor   = vec3(1.0,   1.0,   1.0);
+
+    void main() {
+      vec3 N = normalize(vNormal);
+      vec3 V = normalize(vViewDir);
+
+      // Fresnel rim glow
+      float fresnel = pow(1.0 - abs(dot(N, V)), 2.5);
+
+      // Iridescent color cycling based on face normal + time
+      float nDotV  = dot(N, V);
+      float angle  = nDotV * 3.14159;
+
+      float r = sin(angle * 2.0 + uTime * 0.4) * 0.5 + 0.5;
+      float g = sin(angle * 2.0 + uTime * 0.4 + 2.094) * 0.5 + 0.5;
+      float b = sin(angle * 2.0 + uTime * 0.4 + 4.189) * 0.5 + 0.5;
+      vec3 rainbow = vec3(r, g, b);
+
+      // Mix: base color shifts over time + normal direction
+      float t1 = sin(N.x * 2.0 + uTime * 0.25) * 0.5 + 0.5;
+      float t2 = sin(N.y * 2.0 + uTime * 0.3 + 1.2) * 0.5 + 0.5;
+      vec3 baseColor = mix(mix(goldColor, tealColor, t1), purpleColor, t2 * 0.5);
+
+      // Combine iridescence with base
+      vec3 color = mix(baseColor, rainbow, fresnel * 0.6);
+
+      // Specular highlight
+      vec3 lightDir = normalize(vec3(2.0, 3.0, 4.0));
+      float spec = pow(max(dot(reflect(-lightDir, N), V), 0.0), 80.0);
+      color += spec * whiteColor * 0.9;
+
+      // Gold rim glow
+      color += fresnel * fresnel * goldColor * 1.2;
+
+      // Glass-like alpha
+      float alpha = 0.65 + fresnel * 0.35;
+
+      gl_FragColor = vec4(color, alpha);
+    }
+  `;
+
+  const material = new THREE.ShaderMaterial({
+    vertexShader,
+    fragmentShader,
+    uniforms: {
+      uTime: { value: 0.0 },
+    },
+    side: THREE.DoubleSide,
+    transparent: true,
+    depthWrite: false,
+  });
+
+  // Create inner + outer gem shapes
+  const geo1 = new THREE.IcosahedronGeometry(1.4, 1);
+  const geo2 = new THREE.OctahedronGeometry(1.0, 2);
+
+  const mesh1 = new THREE.Mesh(geo1, material);
+  const mesh2 = new THREE.Mesh(geo2, material.clone());
+
+  mesh2.material.uniforms.uTime = { value: 0 };
+  mesh2.scale.setScalar(0.65);
+  mesh2.position.set(0.3, 0.2, 0);
+
+  scene.add(mesh1);
+  scene.add(mesh2);
+
+  // Floating particles around the gem
+  const particleGeo = new THREE.BufferGeometry();
+  const count = 180;
+  const positions = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    const theta = Math.random() * Math.PI * 2;
+    const phi   = Math.acos(2 * Math.random() - 1);
+    const r     = 2.0 + Math.random() * 1.5;
+    positions[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+    positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+    positions[i * 3 + 2] = r * Math.cos(phi);
+  }
+  particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+  const particleMat = new THREE.PointsMaterial({
+    color: 0xC9A84C,
+    size: 0.04,
+    transparent: true,
+    opacity: 0.6,
+    sizeAttenuation: true,
+  });
+
+  const particles = new THREE.Points(particleGeo, particleMat);
+  scene.add(particles);
+
+  // Mouse parallax
+  let targetX = 0, targetY = 0;
+  let currentX = 0, currentY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    targetX = (e.clientX / window.innerWidth - 0.5) * 0.8;
+    targetY = -(e.clientY / window.innerHeight - 0.5) * 0.8;
+  });
+
+  // Resize handler
+  function onResize() {
+    const w2 = canvas.offsetWidth;
+    const h2 = canvas.offsetHeight;
+    if (w2 === 0 || h2 === 0) return;
+    camera.aspect = w2 / h2;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w2, h2);
+  }
+  window.addEventListener('resize', onResize);
+
+  // Animation loop
+  const clock = new THREE.Clock();
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    const t = clock.getElapsedTime();
+
+    material.uniforms.uTime.value = t;
+    mesh2.material.uniforms.uTime.value = t + 1.0;
+
+    // Gentle rotation
+    mesh1.rotation.y = t * 0.18;
+    mesh1.rotation.x = Math.sin(t * 0.12) * 0.25;
+    mesh1.rotation.z = Math.cos(t * 0.08) * 0.1;
+
+    mesh2.rotation.y = -t * 0.28;
+    mesh2.rotation.x = Math.cos(t * 0.15) * 0.3;
+
+    particles.rotation.y = t * 0.04;
+    particles.rotation.x = t * 0.02;
+
+    // Subtle float
+    mesh1.position.y = Math.sin(t * 0.4) * 0.12;
+    mesh2.position.y = 0.2 + Math.cos(t * 0.5) * 0.08;
+
+    // Mouse parallax (smooth)
+    currentX += (targetX - currentX) * 0.05;
+    currentY += (targetY - currentY) * 0.05;
+    scene.rotation.y = currentX * 0.6;
+    scene.rotation.x = currentY * 0.4;
+
+    renderer.render(scene, camera);
+  }
+
+  animate();
+})();
+
+// âââ Typed.js âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+if (typeof Typed !== 'undefined') {
+  new Typed('#typed', {
+    strings: [
+      'Custom Glass Art.',
+      'One-of-a-Kind Pieces.',
+      'Your Vision, In Glass.',
+      'Wearable Light &amp; Color.',
+    ],
+    typeSpeed: 55,
+    backSpeed: 30,
+    backDelay: 2200,
+    startDelay: 600,
+    loop: true,
+    cursorChar: '|',
+  });
+}
+
+// âââ GSAP Hero Entrance ââââââââââââââââââââââââââââââââââââââââââââââââââââ
+if (typeof gsap !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+
+  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+  tl.from('.hero-eyebrow',  { y: 30, opacity: 0, duration: 0.8, delay: 0.3 })
+    .from('.hero h1',        { y: 40, opacity: 0, duration: 1.0 }, '-=0.5')
+    .from('.hero-subtitle',  { y: 30, opacity: 0, duration: 0.8 }, '-=0.6')
+    .from('.hero-buttons .btn', { y: 20, opacity: 0, stagger: 0.15, duration: 0.7 }, '-=0.5')
+    .from('.scroll-indicator', { opacity: 0, duration: 1 }, '-=0.3');
+
+  // Parallax on hero scroll
+  gsap.to('.hero-content', {
+    scrollTrigger: {
+      trigger: '.hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 1.5,
+    },
+    y: -80,
+    opacity: 0.3,
+  });
+}
+
+// âââ Swiper â Featured Products Carousel ââââââââââââââââââââââââââââââââââ
+let featuredSwiper;
+
+async function loadFeaturedSwiper() {
+  try {
+    const res = await fetch('/api/products');
+    const products = await res.json();
+    const featured = products.slice(0, 6);
+
+    const slidesEl = document.getElementById('featuredSlides');
+    if (!slidesEl) return;
+
+    if (!featured.length) {
+      slidesEl.innerHTML = `
+        <div class="swiper-slide">
+          <div style="text-align:center;padding:80px 24px;color:var(--text-muted)">
+            <div style="font-size:4rem;margin-bottom:20px;opacity:0.3">ð</div>
+            <p style="font-family:'Cinzel',serif">New pieces arriving soon.</p>
+          </div>
+        </div>`;
+    } else {
+      slidesEl.innerHTML = featured.map(p => {
+        const ytId = p.youtube_url ? p.youtube_url.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/) : null;
+        const img  = ytId ? `https://img.youtube.com/vi/${ytId[1]}/hqdefault.jpg` : (p.image_url || '');
+        const escapedName = p.name ? p.name.replace(/"/g, '&quot;') : '';
+        return `
+          <div class="swiper-slide">
+            <div class="product-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.08">
+              <div class="product-media">
+                ${img ? `<img src="${img}" alt="${escapedName}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1599714685195-ce0c7fe72ab6?w=800&q=80'">` :
+                  `<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:3rem;opacity:0.2">ð</div>`}
+                <span class="media-badge">${ytId ? 'â¶ Video' : 'â¦ Original'}</span>
+                ${p.image_url || ytId ? `
+                <a href="${ytId ? 'https://www.youtube.com/watch?v=' + ytId[1] : p.image_url}" class="product-media-overlay glightbox" data-gallery="featured" data-type="${ytId ? 'video' : 'image'}" data-title="${escapedName}">
+                  <div class="product-media-overlay-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a0600" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M11 8v6M8 11h6"/></svg>
+                  </div>
+                </a>` : ''}
+              </div>
+              <div class="product-body">
+                <h3 class="product-name">${escapedName}</h3>
+                <p class="product-description">${p.description ? p.description.replace(/</g,'&lt;').replace(/>/g,'&gt;') : ''}</p>
+                <div class="product-footer">
+                  ${p.price ? `<span class="product-price">$${Number(p.price).toLocaleString()}</span>` : '<span class="product-price inquire">Inquire for pricing</span>'}
+                  <a href="/contact?item=${encodeURIComponent(p.name || '')}" class="btn btn-teal product-cta">Inquire</a>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    // Init Swiper
+    featuredSwiper = new Swiper('.featured-swiper', {
+      slidesPerView: 1,
+      spaceBetween: 28,
+      loop: featured.length > 2,
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        640: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 },
+      },
+      effect: 'slide',
+    });
+
+    // Init VanillaTilt on new cards
+    if (typeof VanillaTilt !== 'undefined') {
+      VanillaTilt.init(document.querySelectorAll('.featured-swiper [data-tilt]'));
+    }
+
+    // Init GLightbox
+    if (typeof GLightbox !== 'undefined') {
+      GLightbox({ selector: '.glightbox', touchNavigation: true, loop: true, autoplayVideos: true });
+    }
+
+  } catch(e) {
+    console.warn('Could not load featured products:', e);
+  }
+}
+
+loadFeaturedSwiper();
 </script>
+
 </body>
 </html>
