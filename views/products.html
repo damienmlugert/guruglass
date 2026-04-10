@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collection — Guru Glass</title>
+  <meta name="description" content="Browse the full Guru Glass collection — hand-blown sculptures, pendants, vessels, and more. Each piece is one of a kind.">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔷</text></svg>">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="logo-icon">🔷</div>
+      <span>Guru <span class="accent">Glass</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/products">Collection</a></li>
+      <li><a href="/contact" class="nav-cta">Commission a Piece</a></li>
+    </ul>
+    <div class="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <span class="section-eyebrow">Hand-Blown Glass Art</span>
+    <h1>The <span class="gold">Collection</span></h1>
+    <p>Each piece made once. Explore available works or use any as inspiration for a custom commission.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div id="productsContainer"></div>
+    <div style="text-align:center;margin-top:64px;padding:40px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px">
+      <span class="section-eyebrow">Don't see what you're looking for?</span>
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.6rem;margin:12px 0 12px">Commission Something Unique</h3>
+      <p style="color:var(--text-secondary);margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto;font-size:0.95rem">
+        Every custom piece starts with your vision. Tell us about colors, sizes, and what the piece means to you.
+      </p>
+      <a href="/contact" class="btn btn-gold">Start Your Commission</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo" style="display:inline-flex">
+          <div class="logo-icon">🔷</div>
+          <span>Guru <span class="accent">Glass</span></span>
+        </div>
+        <p>Handcrafted glass art for collectors, gifters, and those who believe beauty belongs in the everyday.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Navigate</div>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/products">Collection</a></li>
+          <li><a href="/contact">Contact &amp; Orders</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Connect</div>
+        <ul class="footer-links">
+          <li><a href="/contact">Commission a Piece</a></li>
+          <li><a href="/contact">Ask a Question</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2024 Guru Glass. All rights reserved.</span>
+      <span style="color:var(--gold)">✦ Every piece, one of a kind ✦</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/script.js"></script>
+<script>
+  loadProducts('productsContainer');
+</script>
+</body>
+</html>
