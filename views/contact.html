@@ -3,17 +3,111 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact &amp; Order Inquiry — Guru Glass</title>
+  <title>Contact &amp; Order Inquiry â Guru Glass</title>
   <meta name="description" content="Get in touch with Guru Glass to commission a custom piece or ask about available works.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ð</text></svg>">
+
+  <!-- AOS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+
   <link rel="stylesheet" href="/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔷</text></svg>">
+
+  <style>
+    /* Contact page specific styles */
+    .contact-hero {
+      padding: 140px 0 80px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse 70% 70% at 50% 0%, rgba(107,33,168,0.1) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(0,245,212,0.06) 0%, transparent 50%),
+        var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-hero::before {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(to bottom, transparent, var(--bg-primary));
+      pointer-events: none;
+    }
+
+    .contact-hero .container { position: relative; z-index: 1; }
+
+    .contact-hero h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      margin-bottom: 16px;
+    }
+
+    .contact-hero p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-weight: 300;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* Animated background orbs */
+    .contact-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      animation: orbFloat 6s ease-in-out infinite;
+    }
+
+    .contact-orb-1 {
+      width: 400px;
+      height: 400px;
+      background: rgba(107,33,168,0.12);
+      top: -100px;
+      right: -100px;
+      animation-delay: 0s;
+    }
+
+    .contact-orb-2 {
+      width: 300px;
+      height: 300px;
+      background: rgba(0,245,212,0.08);
+      bottom: -50px;
+      left: -50px;
+      animation-delay: 3s;
+    }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-20px) scale(1.05); }
+    }
+
+    /* Info section styling */
+    .contact-info .section-eyebrow {
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+  </style>
 </head>
 <body>
 
-<nav class="nav">
+<!-- âââ Custom Cursor ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-outline" id="cursorOutline"></div>
+
+<!-- âââ Navigation ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<nav class="nav" id="mainNav">
   <div class="container nav-inner">
     <a href="/" class="nav-logo">
-      <div class="logo-icon">🔷</div>
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#f0ead6" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M2 17l10 5 10-5" stroke="#C9A84C" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M2 12l10 5 10-5" stroke="#00f5d4" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <span>Guru <span class="accent">Glass</span></span>
     </a>
     <ul class="nav-links">
@@ -27,82 +121,106 @@
   </div>
 </nav>
 
-<section class="contact-section">
+<!-- âââ Contact Hero Header âââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div class="contact-hero">
+  <div class="contact-orb contact-orb-1"></div>
+  <div class="contact-orb contact-orb-2"></div>
+  <div class="container">
+    <span class="section-eyebrow" data-aos="fade-down">Custom Orders &amp; Inquiries</span>
+    <h1 data-aos="fade-up" data-aos-delay="100">Let's Create <span class="gold">Together</span></h1>
+    <p data-aos="fade-up" data-aos-delay="200">
+      Every commission starts with a conversation. Whether you have a detailed vision or just a feeling â reach out and we'll explore what's possible.
+    </p>
+  </div>
+</div>
+
+<!-- âââ Wave Divider ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div class="wave-divider">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,20 C360,80 720,0 1080,40 C1260,60 1380,10 1440,30 L1440,80 L0,80 Z"
+          fill="#000000"/>
+  </svg>
+</div>
+
+<!-- âââ Contact Section ââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<section class="contact-section" style="background:var(--black);">
   <div class="container">
     <div class="contact-grid">
 
       <!-- Left: Info -->
-      <div class="contact-info">
-        <span class="section-eyebrow">Custom Orders &amp; Inquiries</span>
-        <h2>Let's Create <span class="gold">Something Together</span></h2>
+      <div class="contact-info" data-aos="fade-right" data-aos-delay="100">
+        <span class="section-eyebrow">The Process</span>
+        <h2>Your Vision,<br><span class="gold">Realized in Glass</span></h2>
         <p>
-          Every commission starts with a conversation. Whether you have a detailed vision or just a feeling — a color, a mood, a person you want to honor — reach out and we'll explore what's possible.
-        </p>
-        <p>
-          Commissions typically take 2–4 weeks from deposit to delivery, depending on complexity and current studio schedule.
+          Commissions typically take 2â4 weeks from deposit to delivery, depending on complexity and current studio schedule.
         </p>
 
-        <div class="contact-detail">
-          <div class="contact-detail-icon">📍</div>
+        <div class="contact-detail" data-aos="fade-up" data-aos-delay="150">
+          <div class="contact-detail-icon">ð</div>
           <div>
             <div class="contact-detail-label">Studio</div>
             <div class="contact-detail-text">Available by appointment</div>
           </div>
         </div>
 
-        <div class="contact-detail">
-          <div class="contact-detail-icon">⏱</div>
+        <div class="contact-detail" data-aos="fade-up" data-aos-delay="200">
+          <div class="contact-detail-icon">â±</div>
           <div>
             <div class="contact-detail-label">Response Time</div>
-            <div class="contact-detail-text">We respond to all inquiries within 24–48 hours</div>
+            <div class="contact-detail-text">We respond to all inquiries within 24â48 hours</div>
           </div>
         </div>
 
-        <div class="contact-detail">
-          <div class="contact-detail-icon">🔮</div>
+        <div class="contact-detail" data-aos="fade-up" data-aos-delay="250">
+          <div class="contact-detail-icon">ð</div>
           <div>
             <div class="contact-detail-label">What to Include</div>
             <div class="contact-detail-text">Tell us about size, colors, intended use, and your timeline</div>
           </div>
         </div>
 
-        <div style="margin-top:32px;padding:24px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px">
-          <div style="font-family:'Playfair Display',serif;font-size:0.95rem;color:var(--text-primary);margin-bottom:8px">Commission Process</div>
-          <div style="display:flex;flex-direction:column;gap:12px">
-            <div style="display:flex;gap:12px;align-items:flex-start">
-              <div style="width:24px;height:24px;background:rgba(201,168,76,0.15);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--gold);font-weight:700;flex-shrink:0">1</div>
-              <div style="font-size:0.85rem;color:var(--text-secondary)"><strong style="color:var(--text-primary)">Inquiry</strong> — Tell us your vision via this form</div>
-            </div>
-            <div style="display:flex;gap:12px;align-items:flex-start">
-              <div style="width:24px;height:24px;background:rgba(201,168,76,0.15);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--gold);font-weight:700;flex-shrink:0">2</div>
-              <div style="font-size:0.85rem;color:var(--text-secondary)"><strong style="color:var(--text-primary)">Consultation</strong> — We'll discuss details, pricing &amp; timeline</div>
-            </div>
-            <div style="display:flex;gap:12px;align-items:flex-start">
-              <div style="width:24px;height:24px;background:rgba(201,168,76,0.15);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--gold);font-weight:700;flex-shrink:0">3</div>
-              <div style="font-size:0.85rem;color:var(--text-secondary)"><strong style="color:var(--text-primary)">Creation</strong> — Your piece is crafted with care in the studio</div>
-            </div>
-            <div style="display:flex;gap:12px;align-items:flex-start">
-              <div style="width:24px;height:24px;background:rgba(201,168,76,0.15);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--gold);font-weight:700;flex-shrink:0">4</div>
-              <div style="font-size:0.85rem;color:var(--text-secondary)"><strong style="color:var(--text-primary)">Delivery</strong> — Museum-wrapped and safely shipped to you</div>
-            </div>
+        <!-- Commission Process Steps -->
+        <div class="process-steps" data-aos="fade-up" data-aos-delay="300">
+          <div class="process-title">Commission Process</div>
+          <div class="process-step">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>Inquiry</strong> â Tell us your vision via this form</div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>Consultation</strong> â We'll discuss details, pricing &amp; timeline</div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>Creation</strong> â Your piece is crafted with care in the studio</div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">4</div>
+            <div class="step-text"><strong>Delivery</strong> â Museum-wrapped and safely shipped to you</div>
           </div>
         </div>
       </div>
 
       <!-- Right: Form -->
-      <div>
+      <div data-aos="fade-left" data-aos-delay="200">
         <div class="form-card">
+
+          <!-- Success state -->
           <div id="formSuccess" class="form-success">
-            <div class="success-icon">✨</div>
-            <h3 style="font-family:'Playfair Display',serif;color:var(--text-primary);margin-bottom:8px">Inquiry Received</h3>
-            <p style="color:var(--text-secondary);font-size:0.9rem">Thank you for reaching out. We'll be in touch within 24–48 hours.</p>
-            <a href="/products" style="display:inline-block;margin-top:20px;color:var(--gold);font-size:0.85rem">← Browse the collection</a>
+            <div class="success-icon">â¨</div>
+            <h3>Inquiry Received</h3>
+            <p>Thank you for reaching out. We'll be in touch within 24â48 hours.</p>
+            <a href="/products" style="display:inline-block;margin-top:24px;color:var(--gold);font-family:'Cinzel',serif;font-size:0.8rem;letter-spacing:0.1em">
+              â Browse the collection
+            </a>
           </div>
 
           <form id="contactForm">
-            <div style="margin-bottom:28px">
-              <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:6px">Order Inquiry</h3>
-              <p style="font-size:0.85rem;color:var(--text-secondary)">All fields marked * are required</p>
+            <div style="margin-bottom:32px">
+              <h3>Order Inquiry</h3>
+              <p style="font-size:0.82rem;color:var(--text-muted);margin-top:8px;font-weight:300">
+                All fields marked * are required
+              </p>
             </div>
 
             <div class="form-group">
@@ -118,18 +236,19 @@
             <div class="form-group">
               <label class="form-label" for="order_description">Tell Us About Your Vision *</label>
               <textarea class="form-textarea" id="order_description" name="order_description"
-                placeholder="Describe what you're imagining — colors, size, intended use, who it's for, any reference images you have in mind..."
+                placeholder="Describe what you're imagining â colors, size, intended use, who it's for, any reference images you have in mind..."
                 style="min-height:160px" required></textarea>
             </div>
 
-            <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;font-size:0.9rem;padding:14px">
+            <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;font-size:0.82rem;padding:16px">
               Send Inquiry
             </button>
 
-            <p style="font-size:0.75rem;color:var(--text-muted);margin-top:14px;text-align:center">
+            <p style="font-size:0.75rem;color:var(--text-muted);margin-top:16px;text-align:center;font-weight:300">
               Your information is never shared or used for marketing.
             </p>
           </form>
+
         </div>
       </div>
 
@@ -137,14 +256,29 @@
   </div>
 </section>
 
+<!-- âââ Wave Bottom ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div class="wave-divider">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,40 C360,80 720,0 1080,60 C1260,80 1380,20 1440,40 L1440,80 L0,80 Z"
+          fill="#0a0a1a"/>
+  </svg>
+</div>
+
+<!-- âââ Footer âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="nav-logo" style="display:inline-flex">
-          <div class="logo-icon">🔷</div>
+        <a href="/" class="nav-logo" style="display:inline-flex">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#f0ead6" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M2 17l10 5 10-5" stroke="#C9A84C" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M2 12l10 5 10-5" stroke="#00f5d4" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
           <span>Guru <span class="accent">Glass</span></span>
-        </div>
+        </a>
         <p>Handcrafted glass art for collectors, gifters, and those who believe beauty belongs in the everyday.</p>
       </div>
       <div>
@@ -165,11 +299,70 @@
     </div>
     <div class="footer-bottom">
       <span>&copy; 2024 Guru Glass. All rights reserved.</span>
-      <span style="color:var(--gold)">✦ Every piece, one of a kind ✦</span>
+      <span class="accent">â¦ Every piece, one of a kind â¦</span>
     </div>
   </div>
 </footer>
 
+<!-- âââ Scripts ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<!-- AOS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<!-- Lenis -->
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+<!-- Our script -->
 <script src="/script.js"></script>
+
+<script>
+if (typeof Lenis !== 'undefined' && window.GuruGlass) window.GuruGlass.initLenis();
+if (typeof gsap !== 'undefined' && window.GuruGlass) window.GuruGlass.initGSAPAnimations();
+
+// GSAP stagger for contact details
+if (typeof gsap !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.from('.contact-detail', {
+    scrollTrigger: {
+      trigger: '.contact-grid',
+      start: 'top 80%',
+    },
+    y: 30,
+    opacity: 0,
+    stagger: 0.15,
+    duration: 0.8,
+    ease: 'power3.out',
+  });
+
+  gsap.from('.process-step', {
+    scrollTrigger: {
+      trigger: '.process-steps',
+      start: 'top 85%',
+    },
+    x: -20,
+    opacity: 0,
+    stagger: 0.12,
+    duration: 0.7,
+    ease: 'power3.out',
+  });
+
+  gsap.from('.form-card', {
+    scrollTrigger: {
+      trigger: '.form-card',
+      start: 'top 85%',
+    },
+    y: 40,
+    opacity: 0,
+    duration: 1,
+    ease: 'power3.out',
+  });
+}
+</script>
+
 </body>
 </html>
