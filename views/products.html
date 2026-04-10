@@ -3,17 +3,108 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Collection — Guru Glass</title>
-  <meta name="description" content="Browse the full Guru Glass collection — hand-blown sculptures, pendants, vessels, and more. Each piece is one of a kind.">
+  <title>Collection â Guru Glass</title>
+  <meta name="description" content="Browse the full Guru Glass collection â hand-blown sculptures, pendants, vessels, and more. Each piece is one of a kind.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ð</text></svg>">
+
+  <!-- AOS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <!-- GLightbox CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+
   <link rel="stylesheet" href="/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔷</text></svg>">
+
+  <style>
+    /* Floating particles background for gallery */
+    .gallery-section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Filter tabs */
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 56px;
+      flex-wrap: wrap;
+    }
+
+    .filter-tab {
+      padding: 9px 24px;
+      border-radius: 40px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: none;
+      transition: all var(--transition);
+    }
+
+    .filter-tab:hover,
+    .filter-tab.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201,168,76,0.06);
+    }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 80px;
+    }
+
+    .stat-item {
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Cinzel', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      font-weight: 600;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: 'Cinzel', serif;
+    }
+  </style>
 </head>
 <body>
 
-<nav class="nav">
+<!-- âââ Custom Cursor ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-outline" id="cursorOutline"></div>
+
+<!-- âââ Navigation ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<nav class="nav" id="mainNav">
   <div class="container nav-inner">
     <a href="/" class="nav-logo">
-      <div class="logo-icon">🔷</div>
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#f0ead6" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M2 17l10 5 10-5" stroke="#C9A84C" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M2 12l10 5 10-5" stroke="#00f5d4" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <span>Guru <span class="accent">Glass</span></span>
     </a>
     <ul class="nav-links">
@@ -27,36 +118,85 @@
   </div>
 </nav>
 
+<!-- âââ Page Header ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
 <div class="page-header">
-  <div class="container">
-    <span class="section-eyebrow">Hand-Blown Glass Art</span>
-    <h1>The <span class="gold">Collection</span></h1>
-    <p>Each piece made once. Explore available works or use any as inspiration for a custom commission.</p>
+  <!-- Floating particles canvas -->
+  <canvas id="particles-canvas"></canvas>
+
+  <div class="container" style="position:relative;z-index:1">
+    <span class="section-eyebrow" data-aos="fade-down">Hand-Blown Glass Art</span>
+    <h1 data-aos="fade-up" data-aos-delay="100">The <span class="gold">Collection</span></h1>
+    <p data-aos="fade-up" data-aos-delay="200">
+      Each piece made once. Explore available works or use any as inspiration for a custom commission.
+    </p>
   </div>
 </div>
 
-<section>
+<!-- âââ Wave Divider ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div class="wave-divider">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,0 C240,80 480,0 720,40 C960,80 1200,0 1440,30 L1440,80 L0,80 Z"
+          fill="#000000"/>
+  </svg>
+</div>
+
+<!-- âââ Gallery Section ââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<section class="gallery-section" style="background:var(--black);">
   <div class="container">
-    <div id="productsContainer"></div>
-    <div style="text-align:center;margin-top:64px;padding:40px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px">
+
+    <!-- Stats -->
+    <div class="stats-row" data-aos="fade-up">
+      <div class="stat-item">
+        <div class="stat-number" id="statCount">â</div>
+        <div class="stat-label">Original Works</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Hand-Blown</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">â</div>
+        <div class="stat-label">Custom Options</div>
+      </div>
+    </div>
+
+    <!-- Products container -->
+    <div id="productsContainer" data-aos="fade-up" data-aos-delay="100"></div>
+
+    <!-- Commission CTA -->
+    <div class="commission-cta" data-aos="fade-up" data-aos-delay="150">
       <span class="section-eyebrow">Don't see what you're looking for?</span>
-      <h3 style="font-family:'Playfair Display',serif;font-size:1.6rem;margin:12px 0 12px">Commission Something Unique</h3>
-      <p style="color:var(--text-secondary);margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto;font-size:0.95rem">
-        Every custom piece starts with your vision. Tell us about colors, sizes, and what the piece means to you.
-      </p>
+      <h3>Commission Something <span class="gold">Unique</span></h3>
+      <p>Every custom piece starts with your vision. Tell us about colors, sizes, and what the piece means to you.</p>
       <a href="/contact" class="btn btn-gold">Start Your Commission</a>
     </div>
+
   </div>
 </section>
 
+<!-- âââ Wave Bottom ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div class="wave-divider">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,20 1440,40 L1440,80 L0,80 Z"
+          fill="#0a0a1a"/>
+  </svg>
+</div>
+
+<!-- âââ Footer âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="nav-logo" style="display:inline-flex">
-          <div class="logo-icon">🔷</div>
+        <a href="/" class="nav-logo" style="display:inline-flex">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#f0ead6" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M2 17l10 5 10-5" stroke="#C9A84C" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M2 12l10 5 10-5" stroke="#00f5d4" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
           <span>Guru <span class="accent">Glass</span></span>
-        </div>
+        </a>
         <p>Handcrafted glass art for collectors, gifters, and those who believe beauty belongs in the everyday.</p>
       </div>
       <div>
@@ -77,14 +217,107 @@
     </div>
     <div class="footer-bottom">
       <span>&copy; 2024 Guru Glass. All rights reserved.</span>
-      <span style="color:var(--gold)">✦ Every piece, one of a kind ✦</span>
+      <span class="accent">â¦ Every piece, one of a kind â¦</span>
     </div>
   </div>
 </footer>
 
+<!-- âââ Scripts ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<!-- AOS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<!-- Lenis -->
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+<!-- GLightbox -->
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+
+<!-- Vanilla Tilt -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+
+<!-- Our script -->
 <script src="/script.js"></script>
+
 <script>
-  loadProducts('productsContainer');
+// Init libs
+if (typeof Lenis !== 'undefined' && window.GuruGlass) window.GuruGlass.initLenis();
+if (typeof gsap !== 'undefined' && window.GuruGlass) window.GuruGlass.initGSAPAnimations();
+
+// âââ Floating Particles on page header ââââââââââââââââââââââââââââââââââââââ
+(function() {
+  const canvas = document.getElementById('particles-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let W = canvas.offsetWidth;
+  let H = canvas.offsetHeight;
+  canvas.width = W;
+  canvas.height = H;
+
+  const particles = [];
+  const count = 80;
+
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: 0.5 + Math.random() * 2,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      alpha: 0.1 + Math.random() * 0.5,
+      hue: Math.random() < 0.5 ? 'rgba(201,168,76,' : 'rgba(0,245,212,',
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0) p.x = W;
+      if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H;
+      if (p.y > H) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.hue + p.alpha + ')';
+      ctx.fill();
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  window.addEventListener('resize', () => {
+    W = canvas.offsetWidth;
+    H = canvas.offsetHeight;
+    canvas.width = W;
+    canvas.height = H;
+  });
+})();
+
+// âââ Load Products âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+(async function() {
+  await loadProducts('productsContainer');
+
+  // Update stat count
+  try {
+    const res = await fetch('/api/products');
+    const products = await res.json();
+    const countEl = document.getElementById('statCount');
+    if (countEl) countEl.textContent = products.length || '0';
+  } catch(e) {}
+})();
 </script>
+
 </body>
 </html>
