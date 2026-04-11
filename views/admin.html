@@ -3,95 +3,238 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard — Guru Glass</title>
+  <title>Admin Dashboard â Guru Glass</title>
   <link rel="stylesheet" href="/admin.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔷</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ð·</text></svg>">
+  <style>
+    /* ââ Product Cards Grid ââ */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 20px;
+      padding: 4px 2px 8px;
+    }
+    .product-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      backdrop-filter: blur(10px);
+    }
+    .product-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(201,168,76,0.4);
+      box-shadow: 0 8px 32px rgba(201,168,76,0.12);
+    }
+    .product-card-img {
+      width: 100%;
+      height: 175px;
+      object-fit: cover;
+      display: block;
+    }
+    .product-card-img-placeholder {
+      width: 100%;
+      height: 175px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(123,47,255,0.2), rgba(0,245,212,0.08));
+      font-size: 3rem;
+    }
+    .product-card-body { padding: 14px 16px 16px; }
+    .product-card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.97rem;
+      color: var(--text-primary, #f0e6d3);
+      margin-bottom: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .product-card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .product-card-price {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #C9A84C;
+    }
+    .product-card-price-inquire {
+      font-size: 0.78rem;
+      color: rgba(240,230,211,0.38);
+    }
+    .category-badge {
+      font-size: 0.68rem;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: rgba(123,47,255,0.22);
+      color: #c4a0ff;
+      border: 1px solid rgba(123,47,255,0.35);
+      white-space: nowrap;
+    }
+    .stock-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.76rem;
+      color: rgba(240,230,211,0.45);
+      margin-bottom: 12px;
+    }
+    .stock-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #00f5d4;
+      flex-shrink: 0;
+    }
+    .stock-dot.low { background: #C9A84C; }
+    .stock-dot.out { background: #ff4757; }
+    .product-card-actions { display: flex; gap: 8px; }
+    .product-card-actions .btn { flex: 1; font-size: 0.76rem; padding: 7px 8px; }
+
+    /* ââ Image Upload Zone ââ */
+    .img-upload-zone {
+      border: 2px dashed rgba(201,168,76,0.3);
+      border-radius: 12px;
+      padding: 26px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .img-upload-zone:hover, .img-upload-zone.drag-over {
+      border-color: rgba(201,168,76,0.65);
+      background: rgba(201,168,76,0.05);
+    }
+    .img-upload-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .img-upload-icon { font-size: 1.8rem; margin-bottom: 6px; }
+    .img-upload-text { font-size: 0.83rem; color: rgba(240,230,211,0.5); }
+    .img-upload-text span { color: #C9A84C; text-decoration: underline; }
+    .img-upload-hint { font-size: 0.7rem; color: rgba(240,230,211,0.3); margin-top: 5px; }
+    .img-preview-wrap { display: none; position: relative; }
+    .img-preview-wrap.show { display: block; }
+    .img-preview {
+      width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+      border-radius: 10px;
+      border: 1px solid rgba(201,168,76,0.2);
+      background: rgba(0,0,0,0.3);
+    }
+    .img-preview-remove {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255,71,87,0.85);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ââ Two-col form row ââ */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body>
-
 <div class="admin-layout">
 
-  <!-- ─── Sidebar ──────────────────────────────────────────────────────── -->
+  <!-- âââ Sidebar ââ -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <div class="brand">
-        <div class="brand-icon">🔷</div>
+        <div class="brand-icon">ð·</div>
         <div>
           <div>Guru Glass</div>
           <div class="brand-sub">Admin Panel</div>
         </div>
       </div>
     </div>
-
     <nav class="sidebar-nav">
       <div class="nav-section-label">Overview</div>
       <button class="sidebar-link active" data-panel="dashboard">
-        <span class="link-icon">◈</span> Dashboard
+        <span class="link-icon">â</span> Dashboard
       </button>
-
       <div class="nav-section-label">Manage</div>
       <button class="sidebar-link" data-panel="products">
-        <span class="link-icon">🔷</span> Products
+        <span class="link-icon">ð·</span> Products
       </button>
       <button class="sidebar-link" data-panel="clients">
-        <span class="link-icon">👤</span> Client Orders
+        <span class="link-icon">ð¤</span> Client Orders
       </button>
-
       <div class="nav-section-label">Site</div>
       <a href="/" target="_blank" class="sidebar-link">
-        <span class="link-icon">↗</span> View Website
+        <span class="link-icon">â</span> View Website
       </a>
     </nav>
-
     <div class="sidebar-footer">
-      <div class="version">GuruGlass v1.0</div>
-      <button class="btn btn-ghost btn-sm" id="logoutBtn" style="width:100%;justify-content:center">
-        Sign Out
-      </button>
+      <div class="version">GuruGlass v2.0</div>
+      <button class="btn btn-ghost btn-sm" id="logoutBtn" style="width:100%;justify-content:center">Sign Out</button>
     </div>
   </aside>
 
-  <!-- ─── Main ─────────────────────────────────────────────────────────── -->
+  <!-- âââ Main ââ -->
   <div class="main-content">
-
     <div class="topbar">
       <div class="topbar-title" id="topbarTitle">Dashboard</div>
       <div class="topbar-right">
         <span class="topbar-user" id="topbarUser">Admin</span>
-        <a href="/" target="_blank" class="btn btn-ghost btn-sm">View Site ↗</a>
+        <a href="/" target="_blank" class="btn btn-ghost btn-sm">View Site â</a>
       </div>
     </div>
 
     <div class="page-content">
 
-      <!-- ── Dashboard Panel ────────────────────────────────────────── -->
+      <!-- ââ Dashboard Panel ââ -->
       <div class="panel active" id="panel-dashboard">
         <div class="panel-header">
           <div>
-            <div class="panel-title">Welcome back 👋</div>
+            <div class="panel-title">Welcome back ð</div>
             <div class="panel-subtitle">Here's what's happening with Guru Glass</div>
           </div>
         </div>
-
         <div class="stats-row">
           <div class="stat-card">
             <div class="stat-label">Total Products</div>
-            <div class="stat-value" id="stat-products">—</div>
+            <div class="stat-value" id="stat-products">â</div>
           </div>
           <div class="stat-card">
             <div class="stat-label">Total Inquiries</div>
-            <div class="stat-value" id="stat-clients">—</div>
+            <div class="stat-value" id="stat-clients">â</div>
           </div>
           <div class="stat-card">
             <div class="stat-label">Pending Orders</div>
-            <div class="stat-value" id="stat-pending">—</div>
+            <div class="stat-value" id="stat-pending">â</div>
           </div>
           <div class="stat-card">
             <div class="stat-label">Completed Orders</div>
-            <div class="stat-value" id="stat-complete">—</div>
+            <div class="stat-value" id="stat-complete">â</div>
           </div>
         </div>
-
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
           <div class="table-card" style="padding:24px">
             <div style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:16px;color:var(--text-primary)">Quick Actions</div>
@@ -103,92 +246,66 @@
                 <span>+</span> Add Client Order
               </button>
               <a href="/" target="_blank" class="btn btn-ghost" style="justify-content:flex-start;gap:10px">
-                <span>↗</span> View Live Website
+                <span>â</span> View Live Website
               </a>
             </div>
           </div>
-
           <div class="table-card" style="padding:24px">
             <div style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:16px;color:var(--text-primary)">Recent Inquiries</div>
-            <div id="recentClients" style="font-size:0.85rem;color:var(--text-muted)">Loading…</div>
+            <div id="recentClients" style="font-size:0.85rem;color:var(--text-muted)">Loadingâ¦</div>
           </div>
         </div>
       </div>
 
-      <!-- ── Products Panel ──────────────────────────────────────────── -->
+      <!-- ââ Products Panel ââ -->
       <div class="panel" id="panel-products">
         <div class="panel-header">
           <div>
             <div class="panel-title">Products</div>
             <div class="panel-subtitle">Manage your glass art collection</div>
           </div>
-          <button class="btn btn-primary" onclick="openProductModal()">
-            + Add Product
-          </button>
+          <button class="btn btn-primary" onclick="openProductModal()">+ Add Product</button>
         </div>
-
-        <div class="table-card">
+        <div class="table-card" style="padding:16px 20px 20px">
           <div class="table-toolbar">
-            <input class="table-search" type="text" id="productSearch" placeholder="Search products…">
+            <input class="table-search" type="text" id="productSearch" placeholder="Search productsâ¦">
             <span id="productCount" style="font-size:0.8rem;color:var(--text-muted)"></span>
           </div>
-          <div style="overflow-x:auto">
-            <table id="productsTable">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Price</th>
-                  <th>Media</th>
-                  <th>Added</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="productsBody">
-                <tr><td colspan="6" class="table-empty">Loading…</td></tr>
-              </tbody>
-            </table>
+          <div class="products-grid" id="productsGrid">
+            <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted)">Loadingâ¦</div>
           </div>
         </div>
       </div>
 
-      <!-- ── Clients Panel ───────────────────────────────────────────── -->
+      <!-- ââ Clients Panel ââ -->
       <div class="panel" id="panel-clients">
         <div class="panel-header">
           <div>
             <div class="panel-title">Client Orders</div>
             <div class="panel-subtitle">Track inquiries and commissions</div>
           </div>
-          <button class="btn btn-teal" onclick="openClientModal()">
-            + Add Client
-          </button>
+          <button class="btn btn-teal" onclick="openClientModal()">+ Add Client</button>
         </div>
-
         <div style="display:flex;gap:10px;margin-bottom:16px">
           <button class="btn btn-ghost btn-sm filter-btn active" data-filter="all">All</button>
           <button class="btn btn-ghost btn-sm filter-btn" data-filter="pending">Pending</button>
           <button class="btn btn-ghost btn-sm filter-btn" data-filter="complete">Complete</button>
         </div>
-
         <div class="table-card">
           <div class="table-toolbar">
-            <input class="table-search" type="text" id="clientSearch" placeholder="Search clients…">
+            <input class="table-search" type="text" id="clientSearch" placeholder="Search clientsâ¦">
             <span id="clientCount" style="font-size:0.8rem;color:var(--text-muted)"></span>
           </div>
           <div style="overflow-x:auto">
             <table id="clientsTable">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Phone</th>
-                  <th>Order Description</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                  <th>Actions</th>
+                  <th>Name</th><th>Phone</th><th>Order Description</th>
+                  <th>Status</th><th>Date</th><th>Actions</th>
                 </tr>
               </thead>
               <tbody id="clientsBody">
-                <tr><td colspan="6" class="table-empty">Loading…</td></tr>
+                <tr><td colspan="6" class="table-empty">Loadingâ¦</td></tr>
               </tbody>
             </table>
           </div>
@@ -199,15 +316,15 @@
   </div><!-- /main-content -->
 </div><!-- /admin-layout -->
 
-<!-- ─── Product Modal ──────────────────────────────────────────────────── -->
+<!-- âââ Product Modal ââ -->
 <div class="modal-overlay" id="productModal">
-  <div class="modal">
+  <div class="modal" style="max-width:580px">
     <div class="modal-header">
       <div class="modal-title" id="productModalTitle">Add Product</div>
-      <button class="modal-close" onclick="closeModal('productModal')">✕</button>
+      <button class="modal-close" onclick="closeModal('productModal')">â</button>
     </div>
     <div class="modal-body">
-      <form id="productForm">
+      <form id="productForm" onsubmit="return false">
         <input type="hidden" id="productId">
         <div class="form-group">
           <label class="form-label">Product Name *</label>
@@ -215,21 +332,44 @@
         </div>
         <div class="form-group">
           <label class="form-label">Description</label>
-          <textarea class="form-textarea" id="productDesc" placeholder="Describe this piece — materials, colors, dimensions…"></textarea>
+          <textarea class="form-textarea" id="productDesc" placeholder="Describe this piece â materials, colors, dimensionsâ¦"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Price (USD)</label>
+            <input class="form-input" type="number" id="productPrice" placeholder="e.g. 450" min="0" step="0.01">
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Stock Qty</label>
+            <input class="form-input" type="number" id="productStock" placeholder="0" min="0" step="1">
+          </div>
         </div>
         <div class="form-group">
-          <label class="form-label">Price (USD)</label>
-          <input class="form-input" type="number" id="productPrice" placeholder="e.g. 450 (leave blank for inquire pricing)" min="0" step="0.01">
+          <label class="form-label">Category</label>
+          <select class="form-select" id="productCategory">
+            <option value="Custom Rig">Custom Rig</option>
+            <option value="Lava Lamp">Lava Lamp</option>
+            <option value="Sculpture">Sculpture</option>
+            <option value="Banger">Banger</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
         <div class="form-group">
-          <label class="form-label">YouTube URL</label>
+          <label class="form-label">Product Image</label>
+          <div id="imgPreviewWrap" class="img-preview-wrap">
+            <img id="imgPreview" class="img-preview" src="" alt="Preview">
+            <button type="button" class="img-preview-remove" onclick="clearImage()">â</button>
+          </div>
+          <div class="img-upload-zone" id="imgUploadZone">
+            <input type="file" id="productImageFile" accept="image/*">
+            <div class="img-upload-icon">ð¼</div>
+            <div class="img-upload-text">Drag & drop or <span>click to upload</span></div>
+            <div class="img-upload-hint">PNG, JPG, WEBP â auto-resized to max 600px, 80% quality</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">YouTube URL <span style="font-weight:400;color:var(--text-muted,rgba(240,230,211,0.45))">(optional)</span></label>
           <input class="form-input" type="url" id="productYt" placeholder="https://www.youtube.com/watch?v=...">
-          <div class="form-hint">Optional — if provided, shows a video embed on the product card</div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Image URL</label>
-          <input class="form-input" type="url" id="productImg" placeholder="https://example.com/photo.jpg">
-          <div class="form-hint">Used if no YouTube URL is provided. Can be any public image URL.</div>
         </div>
       </form>
     </div>
@@ -240,15 +380,15 @@
   </div>
 </div>
 
-<!-- ─── Client Modal ───────────────────────────────────────────────────── -->
+<!-- âââ Client Modal ââ -->
 <div class="modal-overlay" id="clientModal">
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title" id="clientModalTitle">Add Client Order</div>
-      <button class="modal-close" onclick="closeModal('clientModal')">✕</button>
+      <button class="modal-close" onclick="closeModal('clientModal')">â</button>
     </div>
     <div class="modal-body">
-      <form id="clientForm">
+      <form id="clientForm" onsubmit="return false">
         <input type="hidden" id="clientId">
         <div class="form-group">
           <label class="form-label">Client Name *</label>
@@ -278,12 +418,12 @@
   </div>
 </div>
 
-<!-- ─── Confirm Delete Modal ───────────────────────────────────────────── -->
+<!-- âââ Confirm Delete Modal ââ -->
 <div class="modal-overlay" id="deleteModal">
   <div class="modal" style="max-width:400px">
     <div class="modal-header">
       <div class="modal-title">Confirm Delete</div>
-      <button class="modal-close" onclick="closeModal('deleteModal')">✕</button>
+      <button class="modal-close" onclick="closeModal('deleteModal')">â</button>
     </div>
     <div class="modal-body">
       <p id="deleteMessage" style="color:var(--text-secondary);font-size:0.9rem">Are you sure you want to delete this item? This cannot be undone.</p>
@@ -298,210 +438,254 @@
 <div id="toast" class="toast"></div>
 
 <script>
-/* ══════════════════════════════════════════════════════════════════════════
-   GuruGlass Admin — JavaScript
-   ══════════════════════════════════════════════════════════════════════════ */
-
+/* ââââââââââââââââââââââââââââââââââââââââââââââââââ
+   GuruGlass Admin v2.0 â Full Product Management
+ââââââââââââââââââââââââââââââââââââââââââââââââââ */
 let allProducts = [];
-let allClients  = [];
+let allClients = [];
 let clientFilter = 'all';
+let currentImageData = null; // stores base64 data URL
 
-// ─── Helpers ───────────────────────────────────────────────────────────────
+// âââ Helpers ââââââââââââââââââââââââââââââââââââââ
 function esc(str) {
   if (!str) return '';
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
 function showToast(msg, type = 'success') {
   const t = document.getElementById('toast');
-  t.innerHTML = `<span>${type === 'success' ? '✓' : '✕'}</span><span>${msg}</span>`;
+  t.innerHTML = `<span>${type === 'success' ? 'â' : 'â'}</span><span>${msg}</span>`;
   t.className = `toast ${type}`;
   requestAnimationFrame(() => t.classList.add('show'));
   setTimeout(() => t.classList.remove('show'), 3500);
 }
-
 function formatDate(dt) {
-  if (!dt) return '—';
+  if (!dt) return 'â';
   const d = new Date(dt + (dt.includes('T') ? '' : 'Z'));
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
-function formatPrice(p) {
-  if (p == null || p === '') return '<span style="color:var(--text-muted);font-size:0.8rem">Inquire</span>';
-  return `<span class="td-price">$${Number(p).toLocaleString()}</span>`;
-}
-
-function getMediaBadge(p) {
-  if (p.youtube_url) return '<span style="color:var(--teal-light);font-size:0.75rem">▶ Video</span>';
-  if (p.image_url)   return '<span style="color:var(--gold);font-size:0.75rem">✦ Image</span>';
-  return '<span style="color:var(--text-muted);font-size:0.75rem">None</span>';
-}
-
-// ─── Navigation ────────────────────────────────────────────────────────────
+// âââ Navigation âââââââââââââââââââââââââââââââââââ
 function openPanel(name) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
-
-  document.getElementById(`panel-${name}`).classList.add('active');
-  document.querySelector(`[data-panel="${name}"]`)?.classList.add('active');
-
+  document.getElementById('panel-' + name).classList.add('active');
+  const btn = document.querySelector('[data-panel="' + name + '"]');
+  if (btn) btn.classList.add('active');
   const titles = { dashboard: 'Dashboard', products: 'Products', clients: 'Client Orders' };
   document.getElementById('topbarTitle').textContent = titles[name] || name;
-
   if (name === 'products') loadProducts();
-  if (name === 'clients')  loadClients();
+  if (name === 'clients') loadClients();
   if (name === 'dashboard') loadDashboard();
 }
-
-document.querySelectorAll('[data-panel]').forEach(btn => {
-  btn.addEventListener('click', () => openPanel(btn.dataset.panel));
+document.querySelectorAll('[data-panel]').forEach(function(btn) {
+  btn.addEventListener('click', function() { openPanel(btn.dataset.panel); });
 });
 
-// ─── Logout ────────────────────────────────────────────────────────────────
-document.getElementById('logoutBtn').addEventListener('click', async () => {
+// âââ Logout âââââââââââââââââââââââââââââââââââââââ
+document.getElementById('logoutBtn').addEventListener('click', async function() {
   await fetch('/api/logout', { method: 'POST' });
   window.location.href = '/login';
 });
 
-// ─── Modals ────────────────────────────────────────────────────────────────
-function openModal(id) {
-  document.getElementById(id).classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-// Close on overlay click
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) closeModal(overlay.id);
-  });
+// âââ Modals âââââââââââââââââââââââââââââââââââââââ
+function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
+document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(overlay.id); });
 });
 
-// ─── Dashboard ────────────────────────────────────────────────────────────
+// âââ Image Upload & Processing ââââââââââââââââââââ
+document.getElementById('productImageFile').addEventListener('change', function(e) {
+  var file = e.target.files[0];
+  if (file) processImageFile(file);
+});
+
+function processImageFile(file) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      var MAX_W = 600;
+      var w = img.width, h = img.height;
+      if (w > MAX_W) { h = Math.round(h * MAX_W / w); w = MAX_W; }
+      canvas.width = w;
+      canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      var dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+      currentImageData = dataUrl;
+      showImagePreview(dataUrl);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function showImagePreview(dataUrl) {
+  document.getElementById('imgPreview').src = dataUrl;
+  document.getElementById('imgPreviewWrap').classList.add('show');
+  document.getElementById('imgUploadZone').style.display = 'none';
+}
+
+function clearImage() {
+  currentImageData = null;
+  document.getElementById('imgPreview').src = '';
+  document.getElementById('imgPreviewWrap').classList.remove('show');
+  document.getElementById('imgUploadZone').style.display = '';
+  document.getElementById('productImageFile').value = '';
+}
+
+// Drag & drop
+var zone = document.getElementById('imgUploadZone');
+zone.addEventListener('dragover', function(e) { e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', function() { zone.classList.remove('drag-over'); });
+zone.addEventListener('drop', function(e) {
+  e.preventDefault();
+  zone.classList.remove('drag-over');
+  var file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) processImageFile(file);
+});
+
+// âââ Dashboard ââââââââââââââââââââââââââââââââââââ
 async function loadDashboard() {
   try {
-    const [products, clients] = await Promise.all([
-      fetch('/api/admin/products').then(r => r.json()),
-      fetch('/api/admin/clients').then(r => r.json())
+    var res = await Promise.all([
+      fetch('/api/admin/products').then(function(r) { return r.json(); }),
+      fetch('/api/admin/clients').then(function(r) { return r.json(); })
     ]);
-
+    var products = res[0], clients = res[1];
     allProducts = products;
-    allClients  = clients;
-
+    allClients = clients;
     document.getElementById('stat-products').textContent = products.length;
-    document.getElementById('stat-clients').textContent  = clients.length;
-    document.getElementById('stat-pending').textContent  = clients.filter(c => c.status === 'pending').length;
-    document.getElementById('stat-complete').textContent = clients.filter(c => c.status === 'complete').length;
-
-    const recent = clients.slice(0, 5);
-    const el = document.getElementById('recentClients');
+    document.getElementById('stat-clients').textContent = clients.length;
+    document.getElementById('stat-pending').textContent = clients.filter(function(c) { return c.status === 'pending'; }).length;
+    document.getElementById('stat-complete').textContent = clients.filter(function(c) { return c.status === 'complete'; }).length;
+    var recent = clients.slice(0, 5);
+    var el = document.getElementById('recentClients');
     if (!recent.length) {
       el.textContent = 'No inquiries yet.';
     } else {
-      el.innerHTML = recent.map(c => `
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(201,168,76,0.08)">
-          <div>
-            <div style="color:var(--text-primary);font-size:0.88rem">${esc(c.name)}</div>
-            <div style="color:var(--text-muted);font-size:0.75rem">${formatDate(c.created_at)}</div>
-          </div>
-          <span class="badge badge-${c.status}"><span class="badge-dot"></span>${c.status}</span>
-        </div>`).join('');
+      el.innerHTML = recent.map(function(c) {
+        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(201,168,76,0.08)">' +
+          '<div><div style="color:var(--text-primary);font-size:0.88rem">' + esc(c.name) + '</div>' +
+          '<div style="color:var(--text-muted);font-size:0.75rem">' + formatDate(c.created_at) + '</div></div>' +
+          '<span class="badge badge-' + c.status + '"><span class="badge-dot"></span>' + c.status + '</span></div>';
+      }).join('');
     }
-  } catch(err) {
-    console.error('Dashboard load error:', err);
-  }
+  } catch(err) { console.error('Dashboard load error:', err); }
 }
 
-// ─── Products ─────────────────────────────────────────────────────────────
+// âââ Products âââââââââââââââââââââââââââââââââââââ
 async function loadProducts() {
   try {
-    const data = await fetch('/api/admin/products').then(r => r.json());
+    var data = await fetch('/api/admin/products').then(function(r) { return r.json(); });
     allProducts = data;
     renderProducts(data);
-  } catch(err) {
-    showToast('Failed to load products', 'error');
+  } catch(err) { showToast('Failed to load products', 'error'); }
+}
+
+function getProductThumb(p) {
+  if (p.image_data) {
+    return '<img class="product-card-img" src="' + p.image_data + '" alt="' + esc(p.name) + '" loading="lazy">';
   }
+  if (p.image_url) {
+    return '<img class="product-card-img" src="' + esc(p.image_url) + '" alt="' + esc(p.name) + '" loading="lazy" onerror="this.outerHTML=\'<div class=&quot;product-card-img-placeholder&quot;>ð·</div>\'">';
+  }
+  return '<div class="product-card-img-placeholder">ð·</div>';
+}
+
+function getStockHTML(stock) {
+  var s = parseInt(stock) || 0;
+  var cls = '', label = '';
+  if (s === 0) { cls = 'out'; label = 'Out of stock'; }
+  else if (s <= 2) { cls = 'low'; label = s + ' left â low stock'; }
+  else { label = s + ' in stock'; }
+  return '<div class="stock-indicator"><div class="stock-dot ' + cls + '"></div>' + label + '</div>';
 }
 
 function renderProducts(products) {
-  const tbody = document.getElementById('productsBody');
-  document.getElementById('productCount').textContent = `${products.length} product${products.length !== 1 ? 's' : ''}`;
-
+  var grid = document.getElementById('productsGrid');
+  document.getElementById('productCount').textContent = products.length + ' product' + (products.length !== 1 ? 's' : '');
   if (!products.length) {
-    tbody.innerHTML = '<tr><td colspan="6" class="table-empty">No products yet. Add your first piece!</td></tr>';
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-muted)">No products yet. Add your first piece!</div>';
     return;
   }
-
-  tbody.innerHTML = products.map(p => `
-    <tr>
-      <td class="td-name">${esc(p.name)}</td>
-      <td class="td-desc" title="${esc(p.description)}">${esc(p.description || '—')}</td>
-      <td>${formatPrice(p.price)}</td>
-      <td>${getMediaBadge(p)}</td>
-      <td>${formatDate(p.created_at)}</td>
-      <td class="td-actions">
-        <button class="btn btn-ghost btn-sm btn-icon" onclick="editProduct(${p.id})" title="Edit">✏</button>
-        <button class="btn btn-danger btn-sm btn-icon" onclick="confirmDelete('product', ${p.id}, '${esc(p.name)}')" title="Delete">🗑</button>
-      </td>
-    </tr>`).join('');
+  grid.innerHTML = products.map(function(p) {
+    var safeNameJs = esc(p.name).replace(/'/g, "\\'");
+    var priceHtml = (p.price != null)
+      ? '<span class="product-card-price">$' + Number(p.price).toLocaleString() + '</span>'
+      : '<span class="product-card-price-inquire">Inquire</span>';
+    return '<div class="product-card">' +
+      getProductThumb(p) +
+      '<div class="product-card-body">' +
+      '<div class="product-card-name" title="' + esc(p.name) + '">' + esc(p.name) + '</div>' +
+      '<div class="product-card-meta">' + priceHtml + '<span class="category-badge">' + esc(p.category || 'Other') + '</span></div>' +
+      getStockHTML(p.stock) +
+      '<div class="product-card-actions">' +
+      '<button class="btn btn-ghost btn-sm" onclick="editProduct(' + p.id + ')">â Edit</button>' +
+      '<button class="btn btn-danger btn-sm" onclick="confirmDelete(\'product\',' + p.id + ',\'' + safeNameJs + '\')">ð Delete</button>' +
+      '</div></div></div>';
+  }).join('');
 }
 
-// Search products
 document.getElementById('productSearch').addEventListener('input', function() {
-  const q = this.value.toLowerCase();
-  renderProducts(allProducts.filter(p =>
-    p.name.toLowerCase().includes(q) ||
-    (p.description || '').toLowerCase().includes(q)
-  ));
+  var q = this.value.toLowerCase();
+  renderProducts(allProducts.filter(function(p) {
+    return p.name.toLowerCase().includes(q) ||
+      (p.description || '').toLowerCase().includes(q) ||
+      (p.category || '').toLowerCase().includes(q);
+  }));
 });
 
-function openProductModal(product = null) {
-  document.getElementById('productId').value   = product?.id || '';
-  document.getElementById('productName').value  = product?.name || '';
-  document.getElementById('productDesc').value  = product?.description || '';
-  document.getElementById('productPrice').value = product?.price ?? '';
-  document.getElementById('productYt').value    = product?.youtube_url || '';
-  document.getElementById('productImg').value   = product?.image_url || '';
+function openProductModal(product) {
+  clearImage();
+  document.getElementById('productId').value = product ? product.id : '';
+  document.getElementById('productName').value = product ? product.name : '';
+  document.getElementById('productDesc').value = product ? (product.description || '') : '';
+  document.getElementById('productPrice').value = (product && product.price != null) ? product.price : '';
+  document.getElementById('productStock').value = product ? (product.stock || 0) : 0;
+  document.getElementById('productCategory').value = product ? (product.category || 'Other') : 'Other';
+  document.getElementById('productYt').value = product ? (product.youtube_url || '') : '';
+  if (product && product.image_data) {
+    currentImageData = product.image_data;
+    showImagePreview(product.image_data);
+  } else if (product && product.image_url) {
+    document.getElementById('imgPreview').src = product.image_url;
+    document.getElementById('imgPreviewWrap').classList.add('show');
+    document.getElementById('imgUploadZone').style.display = 'none';
+  }
   document.getElementById('productModalTitle').textContent = product ? 'Edit Product' : 'Add Product';
   document.getElementById('productSaveBtn').textContent = product ? 'Update Product' : 'Save Product';
   openModal('productModal');
 }
 
 function editProduct(id) {
-  const p = allProducts.find(p => p.id === id);
+  var p = allProducts.find(function(p) { return p.id === id; });
   if (p) openProductModal(p);
 }
 
 async function saveProduct() {
-  const id   = document.getElementById('productId').value;
-  const name = document.getElementById('productName').value.trim();
+  var id = document.getElementById('productId').value;
+  var name = document.getElementById('productName').value.trim();
   if (!name) { showToast('Product name is required', 'error'); return; }
-
-  const body = {
-    name,
+  var body = {
+    name: name,
     description: document.getElementById('productDesc').value.trim(),
-    price:       document.getElementById('productPrice').value || null,
+    price: document.getElementById('productPrice').value || null,
+    category: document.getElementById('productCategory').value,
+    stock: parseInt(document.getElementById('productStock').value) || 0,
     youtube_url: document.getElementById('productYt').value.trim(),
-    image_url:   document.getElementById('productImg').value.trim()
+    image_data: currentImageData || null
   };
-
-  const btn = document.getElementById('productSaveBtn');
+  var btn = document.getElementById('productSaveBtn');
   btn.disabled = true;
-  btn.textContent = 'Saving…';
-
+  btn.textContent = 'Savingâ¦';
   try {
-    const url    = id ? `/api/admin/products/${id}` : '/api/admin/products';
-    const method = id ? 'PUT' : 'POST';
-    const res    = await fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    const data = await res.json();
+    var url = id ? ('/api/admin/products/' + id) : '/api/admin/products';
+    var method = id ? 'PUT' : 'POST';
+    var res = await fetch(url, { method: method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    var data = await res.json();
     if (res.ok) {
       closeModal('productModal');
       showToast(id ? 'Product updated!' : 'Product added!');
@@ -510,138 +694,113 @@ async function saveProduct() {
     } else {
       showToast(data.error || 'Save failed', 'error');
     }
-  } catch(err) {
-    showToast('Network error', 'error');
-  } finally {
+  } catch(err) { showToast('Network error', 'error'); }
+  finally {
     btn.disabled = false;
     btn.textContent = id ? 'Update Product' : 'Save Product';
   }
 }
 
-// ─── Clients ──────────────────────────────────────────────────────────────
+// âââ Clients ââââââââââââââââââââââââââââââââââââââ
 async function loadClients() {
   try {
-    const data = await fetch('/api/admin/clients').then(r => r.json());
+    var data = await fetch('/api/admin/clients').then(function(r) { return r.json(); });
     allClients = data;
     renderClients();
-  } catch(err) {
-    showToast('Failed to load clients', 'error');
-  }
+  } catch(err) { showToast('Failed to load clients', 'error'); }
 }
 
 function renderClients() {
-  const tbody = document.getElementById('clientsBody');
-  let filtered = allClients;
-  if (clientFilter !== 'all') {
-    filtered = allClients.filter(c => c.status === clientFilter);
-  }
-  const q = document.getElementById('clientSearch').value.toLowerCase();
-  if (q) {
-    filtered = filtered.filter(c =>
-      c.name.toLowerCase().includes(q) ||
+  var tbody = document.getElementById('clientsBody');
+  var filtered = allClients;
+  if (clientFilter !== 'all') filtered = allClients.filter(function(c) { return c.status === clientFilter; });
+  var q = document.getElementById('clientSearch').value.toLowerCase();
+  if (q) filtered = filtered.filter(function(c) {
+    return c.name.toLowerCase().includes(q) ||
       (c.phone || '').toLowerCase().includes(q) ||
-      (c.order_description || '').toLowerCase().includes(q)
-    );
-  }
-
-  document.getElementById('clientCount').textContent = `${filtered.length} client${filtered.length !== 1 ? 's' : ''}`;
-
+      (c.order_description || '').toLowerCase().includes(q);
+  });
+  document.getElementById('clientCount').textContent = filtered.length + ' client' + (filtered.length !== 1 ? 's' : '');
   if (!filtered.length) {
     tbody.innerHTML = '<tr><td colspan="6" class="table-empty">No clients found.</td></tr>';
     return;
   }
-
-  tbody.innerHTML = filtered.map(c => `
-    <tr>
-      <td class="td-name">${esc(c.name)}</td>
-      <td>${esc(c.phone || '—')}</td>
-      <td class="td-desc" title="${esc(c.order_description)}">${esc(c.order_description || '—')}</td>
-      <td>
-        <span class="badge badge-${c.status}">
-          <span class="badge-dot"></span>${c.status}
-        </span>
-      </td>
-      <td>${formatDate(c.created_at)}</td>
-      <td class="td-actions">
-        <button class="btn btn-ghost btn-sm" onclick="toggleClientStatus(${c.id},'${c.status === 'pending' ? 'complete' : 'pending'}')"
-                title="${c.status === 'pending' ? 'Mark complete' : 'Mark pending'}" style="font-size:0.75rem">
-          ${c.status === 'pending' ? '✓ Done' : '↺ Reopen'}
-        </button>
-        <button class="btn btn-ghost btn-sm btn-icon" onclick="editClient(${c.id})" title="Edit">✏</button>
-        <button class="btn btn-danger btn-sm btn-icon" onclick="confirmDelete('client', ${c.id}, '${esc(c.name)}')" title="Delete">🗑</button>
-      </td>
-    </tr>`).join('');
+  tbody.innerHTML = filtered.map(function(c) {
+    var safeName = esc(c.name).replace(/'/g, "\\'");
+    var nextStatus = c.status === 'pending' ? 'complete' : 'pending';
+    var toggleLabel = c.status === 'pending' ? 'â Done' : 'âº Reopen';
+    return '<tr>' +
+      '<td class="td-name">' + esc(c.name) + '</td>' +
+      '<td>' + esc(c.phone || 'â') + '</td>' +
+      '<td class="td-desc" title="' + esc(c.order_description) + '">' + esc(c.order_description || 'â') + '</td>' +
+      '<td><span class="badge badge-' + c.status + '"><span class="badge-dot"></span>' + c.status + '</span></td>' +
+      '<td>' + formatDate(c.created_at) + '</td>' +
+      '<td class="td-actions">' +
+      '<button class="btn btn-ghost btn-sm" onclick="toggleClientStatus(' + c.id + ',\'' + nextStatus + '\')" style="font-size:0.75rem">' + toggleLabel + '</button>' +
+      '<button class="btn btn-ghost btn-sm btn-icon" onclick="editClient(' + c.id + ')" title="Edit">â</button>' +
+      '<button class="btn btn-danger btn-sm btn-icon" onclick="confirmDelete(\'client\',' + c.id + ',\'' + safeName + '\')">ð</button>' +
+      '</td></tr>';
+  }).join('');
 }
 
-// Filter buttons
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+document.querySelectorAll('.filter-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
     clientFilter = btn.dataset.filter;
     renderClients();
   });
 });
-
 document.getElementById('clientSearch').addEventListener('input', renderClients);
 
-function openClientModal(client = null) {
-  document.getElementById('clientId').value     = client?.id || '';
-  document.getElementById('clientName').value   = client?.name || '';
-  document.getElementById('clientPhone').value  = client?.phone || '';
-  document.getElementById('clientDesc').value   = client?.order_description || '';
-  document.getElementById('clientStatus').value = client?.status || 'pending';
+function openClientModal(client) {
+  document.getElementById('clientId').value = client ? client.id : '';
+  document.getElementById('clientName').value = client ? client.name : '';
+  document.getElementById('clientPhone').value = client ? (client.phone || '') : '';
+  document.getElementById('clientDesc').value = client ? (client.order_description || '') : '';
+  document.getElementById('clientStatus').value = client ? (client.status || 'pending') : 'pending';
   document.getElementById('clientModalTitle').textContent = client ? 'Edit Client' : 'Add Client Order';
-  document.getElementById('clientSaveBtn').textContent    = client ? 'Update Client' : 'Save Client';
+  document.getElementById('clientSaveBtn').textContent = client ? 'Update Client' : 'Save Client';
   openModal('clientModal');
 }
 
 function editClient(id) {
-  const c = allClients.find(c => c.id === id);
+  var c = allClients.find(function(c) { return c.id === id; });
   if (c) openClientModal(c);
 }
 
 async function toggleClientStatus(id, newStatus) {
-  const c = allClients.find(c => c.id === id);
+  var c = allClients.find(function(c) { return c.id === id; });
   if (!c) return;
   try {
-    await fetch(`/api/admin/clients/${id}`, {
+    await fetch('/api/admin/clients/' + id, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...c, status: newStatus })
+      body: JSON.stringify({ name: c.name, phone: c.phone, order_description: c.order_description, status: newStatus })
     });
-    showToast(`Marked as ${newStatus}`);
+    showToast('Marked as ' + newStatus);
     loadClients();
     loadDashboard();
-  } catch(err) {
-    showToast('Update failed', 'error');
-  }
+  } catch(err) { showToast('Update failed', 'error'); }
 }
 
 async function saveClient() {
-  const id   = document.getElementById('clientId').value;
-  const name = document.getElementById('clientName').value.trim();
+  var id = document.getElementById('clientId').value;
+  var name = document.getElementById('clientName').value.trim();
   if (!name) { showToast('Client name is required', 'error'); return; }
-
-  const body = {
-    name,
-    phone:             document.getElementById('clientPhone').value.trim(),
+  var body = {
+    name: name,
+    phone: document.getElementById('clientPhone').value.trim(),
     order_description: document.getElementById('clientDesc').value.trim(),
-    status:            document.getElementById('clientStatus').value
+    status: document.getElementById('clientStatus').value
   };
-
-  const btn = document.getElementById('clientSaveBtn');
+  var btn = document.getElementById('clientSaveBtn');
   btn.disabled = true;
-
   try {
-    const url    = id ? `/api/admin/clients/${id}` : '/api/admin/clients';
-    const method = id ? 'PUT' : 'POST';
-    const res    = await fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    const data = await res.json();
+    var url = id ? ('/api/admin/clients/' + id) : '/api/admin/clients';
+    var method = id ? 'PUT' : 'POST';
+    var res = await fetch(url, { method: method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    var data = await res.json();
     if (res.ok) {
       closeModal('clientModal');
       showToast(id ? 'Client updated!' : 'Client added!');
@@ -650,40 +809,32 @@ async function saveClient() {
     } else {
       showToast(data.error || 'Save failed', 'error');
     }
-  } catch(err) {
-    showToast('Network error', 'error');
-  } finally {
-    btn.disabled = false;
-  }
+  } catch(err) { showToast('Network error', 'error'); }
+  finally { btn.disabled = false; }
 }
 
-// ─── Delete ───────────────────────────────────────────────────────────────
+// âââ Delete âââââââââââââââââââââââââââââââââââââââ
 function confirmDelete(type, id, name) {
-  document.getElementById('deleteMessage').textContent =
-    `Delete "${name}"? This action cannot be undone.`;
-  document.getElementById('deleteConfirmBtn').onclick = () => doDelete(type, id);
+  document.getElementById('deleteMessage').textContent = 'Delete "' + name + '"? This action cannot be undone.';
+  document.getElementById('deleteConfirmBtn').onclick = function() { doDelete(type, id); };
   openModal('deleteModal');
 }
 
 async function doDelete(type, id) {
-  const url = type === 'product' ? `/api/admin/products/${id}` : `/api/admin/clients/${id}`;
+  var url = type === 'product' ? ('/api/admin/products/' + id) : ('/api/admin/clients/' + id);
   try {
-    const res = await fetch(url, { method: 'DELETE' });
+    var res = await fetch(url, { method: 'DELETE' });
     if (res.ok) {
       closeModal('deleteModal');
       showToast('Deleted successfully');
       if (type === 'product') loadProducts();
       else loadClients();
       loadDashboard();
-    } else {
-      showToast('Delete failed', 'error');
-    }
-  } catch(err) {
-    showToast('Network error', 'error');
-  }
+    } else { showToast('Delete failed', 'error'); }
+  } catch(err) { showToast('Network error', 'error'); }
 }
 
-// ─── Init ─────────────────────────────────────────────────────────────────
+// âââ Init âââââââââââââââââââââââââââââââââââââââââ
 loadDashboard();
 </script>
 </body>
