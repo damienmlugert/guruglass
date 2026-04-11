@@ -7,60 +7,40 @@ const db = require('./database');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ─── Middleware ───────────────────────────────────────────────────────────────
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// âââ Middleware âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+app.use(express.json({ limit: '10mb' })); // increased limit for base64 images
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(session({
   secret: process.env.SESSION_SECRET || 'guruglass-secret-key-change-in-production',
   resave: false,
   saveUninitialized: false,
-  cookie: {
-    secure: false, // set to true if using HTTPS
-    maxAge: 1000 * 60 * 60 * 8 // 8 hours
-  }
+  cookie: { secure: false, maxAge: 1000 * 60 * 60 * 8 }
 }));
 
-// ─── Auth Middleware ──────────────────────────────────────────────────────────
+// âââ Auth Middleware ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function requireAuth(req, res, next) {
-  if (req.session && req.session.isAdmin) {
-    return next();
-  }
+  if (req.session && req.session.isAdmin) return next();
   res.redirect('/login');
 }
 
-// ─── Public Page Routes ───────────────────────────────────────────────────────
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'index.html'));
-});
+// âââ Public Page Routes âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'views', 'index.html')));
+app.get('/products', (req, res) => res.sendFile(path.join(__dirname, 'views', 'products.html')));
+app.get('/contact', (req, res) => res.sendFile(path.join(__dirname, 'views', 'contact.html')));
 
-app.get('/products', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'products.html'));
-});
-
-app.get('/contact', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'contact.html'));
-});
-
-// ─── Admin Page Routes ────────────────────────────────────────────────────────
+// âââ Admin Page Routes ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 app.get('/login', (req, res) => {
-  if (req.session && req.session.isAdmin) {
-    return res.redirect('/admin');
-  }
+  if (req.session && req.session.isAdmin) return res.redirect('/admin');
   res.sendFile(path.join(__dirname, 'views', 'login.html'));
 });
+app.get('/admin', requireAuth, (req, res) => res.sendFile(path.join(__dirname, 'views', 'admin.html')));
 
-app.get('/admin', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'admin.html'));
-});
-
-// ─── Auth API ─────────────────────────────────────────────────────────────────
+// âââ Auth API âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
   const adminUser = process.env.ADMIN_USER || 'admin';
   const adminPass = process.env.ADMIN_PASS || 'guruglass2024';
-
   if (username === adminUser && password === adminPass) {
     req.session.isAdmin = true;
     req.session.username = username;
@@ -70,16 +50,14 @@ app.post('/api/login', (req, res) => {
 });
 
 app.post('/api/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.json({ success: true });
-  });
+  req.session.destroy(() => res.json({ success: true }));
 });
 
 app.get('/api/auth/status', (req, res) => {
   res.json({ isAdmin: !!(req.session && req.session.isAdmin) });
 });
 
-// ─── Public Products API ──────────────────────────────────────────────────────
+// âââ Public Products API ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 app.get('/api/products', (req, res) => {
   try {
     const products = db.prepare('SELECT * FROM products ORDER BY created_at DESC').all();
@@ -89,7 +67,7 @@ app.get('/api/products', (req, res) => {
   }
 });
 
-// ─── Public Contact / Order Inquiry API ──────────────────────────────────────
+// âââ Public Contact / Order Inquiry API ââââââââââââââââââââââââââââââââââââââ
 app.post('/api/contact', (req, res) => {
   const { name, phone, order_description } = req.body;
   if (!name || !order_description) {
@@ -106,7 +84,7 @@ app.post('/api/contact', (req, res) => {
   }
 });
 
-// ─── Admin Products API ───────────────────────────────────────────────────────
+// âââ Admin Products API âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 app.get('/api/admin/products', requireAuth, (req, res) => {
   try {
     const products = db.prepare('SELECT * FROM products ORDER BY created_at DESC').all();
@@ -117,18 +95,21 @@ app.get('/api/admin/products', requireAuth, (req, res) => {
 });
 
 app.post('/api/admin/products', requireAuth, (req, res) => {
-  const { name, description, price, youtube_url, image_url } = req.body;
+  const { name, description, price, youtube_url, image_url, image_data, category, stock } = req.body;
   if (!name) return res.status(400).json({ error: 'Product name is required.' });
   try {
     const stmt = db.prepare(
-      'INSERT INTO products (name, description, price, youtube_url, image_url) VALUES (?, ?, ?, ?, ?)'
+      'INSERT INTO products (name, description, price, youtube_url, image_url, image_data, category, stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
     );
     const result = stmt.run(
       name,
       description || '',
       price ? parseFloat(price) : null,
       youtube_url || '',
-      image_url || ''
+      image_url || '',
+      image_data || null,
+      category || 'Other',
+      stock ? parseInt(stock) : 0
     );
     const product = db.prepare('SELECT * FROM products WHERE id = ?').get(result.lastInsertRowid);
     res.json(product);
@@ -139,17 +120,20 @@ app.post('/api/admin/products', requireAuth, (req, res) => {
 
 app.put('/api/admin/products/:id', requireAuth, (req, res) => {
   const { id } = req.params;
-  const { name, description, price, youtube_url, image_url } = req.body;
+  const { name, description, price, youtube_url, image_url, image_data, category, stock } = req.body;
   if (!name) return res.status(400).json({ error: 'Product name is required.' });
   try {
     db.prepare(
-      'UPDATE products SET name=?, description=?, price=?, youtube_url=?, image_url=? WHERE id=?'
+      'UPDATE products SET name=?, description=?, price=?, youtube_url=?, image_url=?, image_data=?, category=?, stock=? WHERE id=?'
     ).run(
       name,
       description || '',
       price ? parseFloat(price) : null,
       youtube_url || '',
       image_url || '',
+      image_data !== undefined ? image_data : null,
+      category || 'Other',
+      stock ? parseInt(stock) : 0,
       id
     );
     const product = db.prepare('SELECT * FROM products WHERE id = ?').get(id);
@@ -168,7 +152,7 @@ app.delete('/api/admin/products/:id', requireAuth, (req, res) => {
   }
 });
 
-// ─── Admin Clients API ────────────────────────────────────────────────────────
+// âââ Admin Clients API ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 app.get('/api/admin/clients', requireAuth, (req, res) => {
   try {
     const clients = db.prepare('SELECT * FROM clients ORDER BY created_at DESC').all();
@@ -216,9 +200,9 @@ app.delete('/api/admin/clients/:id', requireAuth, (req, res) => {
   }
 });
 
-// ─── Start Server ─────────────────────────────────────────────────────────────
+// âââ Start Server âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 app.listen(PORT, () => {
-  console.log(`✨ GuruGlass server running on port ${PORT}`);
+  console.log(`â¨ GuruGlass server running on port ${PORT}`);
   console.log(`   Visit: http://localhost:${PORT}`);
   console.log(`   Admin: http://localhost:${PORT}/admin`);
 });
